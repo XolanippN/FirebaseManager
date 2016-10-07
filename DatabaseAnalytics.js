@@ -1,6 +1,6 @@
     var firebase = require("firebase")
     var prompt = require('prompt')
-    var whiteList = ["qEUc0sJIa9fScFgcKUVtMkSbIP52","lUPBKlLPKSVO3k0wN8CpBfZa1Fd2","EXo2tzm4KbQrpumZ1Bubbqni0oE3","MoTDa2ovsYNF4s1ACRc5qmcDpeY2"];
+    var whiteList = ["EXo2tzm4KbQrpumZ1Bubbqni0oE3","MoTDa2ovsYNF4s1ACRc5qmcDpeY2","w64DXFfhedfLc7pORzQ5f67aHJL2"];
          // Initialize Firebase
          console.info("***Initializing Firebase'***");
     firebase.initializeApp({
@@ -41,7 +41,8 @@ db.ref('/rooms').once("value", function (snapshot, prevChildKey) {
             console.info("***Fetching 'room_messages'***");
             room_messages = snapshot.val();
             console.info("***analyzing 'ONE ON ONE' rooms***");
-            console.info("*********Total number of one on one rooms is: "+oneOnOneRooms.length+" ***");
+            var len1 = oneOnOneRooms.length-1;
+            console.info("*********Total number of one on one rooms is: "+ len1 +" ***");
               for(room in room_messages){
                       for(roomone in oneOnOneRooms){
                          if(room == oneOnOneRooms[roomone]){
@@ -52,7 +53,8 @@ db.ref('/rooms').once("value", function (snapshot, prevChildKey) {
               }
               console.info("*********Total number of one on one messages is: "+totalOMessages+" ***");
               console.info("***analyzing 'GROUP' rooms***");
-               console.info("*********Total number of group rooms is: "+groupRooms.length+" ***");
+              var len2 = groupRooms.length - 1;
+               console.info("*********Total number of group rooms is: "+ len2 +" ***");
               for(room in room_messages){
                       for(roomone in groupRooms){
                          if(room == groupRooms[roomone]){
@@ -78,7 +80,6 @@ function oneOnOneRoomsAnalysis(room,messages){
      totalOMessages = totalOMessages + i;
    
 }
-
 function groupRoomsAnalysis(room,messages){
      var i = 0;
     for(messageid in messages){
@@ -87,7 +88,6 @@ function groupRoomsAnalysis(room,messages){
     console.info("*********In room "+room+" there are: "+i+" messages ***"); 
     totalGMessages = totalGMessages + i;
 }
-
 function oneOnOneOrGroup(room){
     var type = "";
             if( room.type == "one on one"){
@@ -104,7 +104,6 @@ function oneOnOneOrGroup(room){
                 }
        return type;
 }   
-
 function WhitelistTester(whitelist,InRoom,room){
  var hasWatchlistMembersOnly = false;
  var temp = 0;
@@ -113,13 +112,13 @@ function WhitelistTester(whitelist,InRoom,room){
            i = 0;
         for(member in InRoom.members){
             if(InRoom.members[member] == whitelist[whitelister]){
-                temp++;  
+                temp++; 
             }
            i++;    
         }
-        console.log(temp) 
+         
      }
-    if(i == 0 ){
+    if(i == 0){
 
     console.log("******Error :room"+ room +" has no member table********");
     }
@@ -130,7 +129,6 @@ function WhitelistTester(whitelist,InRoom,room){
          hasWatchlistMembersOnly = false
         } 
 
-     console.log(hasWatchlistMembersOnly)
     return hasWatchlistMembersOnly;
 }
 
