@@ -16,8 +16,6 @@
      var totalGMessages = 0;
      var totalOMessages = 0;
      
-
-
 db.ref('/rooms').once("value", function (snapshot, prevChildKey) {
      console.info("***Fetching 'Rooms'***");
        rooms = snapshot.val();
@@ -69,12 +67,7 @@ db.ref('/rooms').once("value", function (snapshot, prevChildKey) {
 
  });
  
-function numberOfMessages(){
- console.info("***called number of messages***");
-    var num_messages = 0;
 
-    return num_messages;
-}
 
 function oneOnOneRoomsAnalysis(room,messages){
     var i = 0;
@@ -96,7 +89,6 @@ function groupRoomsAnalysis(room,messages){
 }
 
 function oneOnOneOrGroup(room){
-    //console.info("***called one or group***");
     var type = "";
             if( room.type == "one on one"){
                 type = "one on one";
@@ -114,33 +106,31 @@ function oneOnOneOrGroup(room){
 }   
 
 function WhitelistTester(whitelist,InRoom,room){
-//console.info("***called whitelist user***");
  var hasWatchlistMembersOnly = false;
  var temp = 0;
- var tester = 0;
  var i = 0;
   for(whitelister in whitelist){
-      tester = 0;
-         i = 0;
+           i = 0;
         for(member in InRoom.members){
             if(InRoom.members[member] == whitelist[whitelister]){
                 temp++;  
             }
            i++;    
         }
-        tester = tester + temp;  
+        console.log(temp) 
      }
     if(i == 0 ){
 
     console.log("******Error :room"+ room +" has no member table********");
     }
-    if(tester == temp && tester == i){
+    if(temp == i){
         hasWatchlistMembersOnly = true;
      }
      else{ 
          hasWatchlistMembersOnly = false
         } 
 
+     console.log(hasWatchlistMembersOnly)
     return hasWatchlistMembersOnly;
 }
 
